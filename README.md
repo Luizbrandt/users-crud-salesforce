@@ -51,3 +51,7 @@ Here we have only the System level, which access Salesforce record data using fo
 ### Objects :cd:
 
 ### Mule Flows :twisted_rightwards_arrows:
+
+### Security :key:
+
+MuleSoft has it's own way of encrypting data: the <a href="https://docs.mulesoft.com/mule-runtime/4.3/secure-configuration-properties">Secure Properties Connector</a>. Through a secure encryption key (which I obviously deleted), developers can set sensible information to it's encripted mode.
