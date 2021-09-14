@@ -106,6 +106,44 @@ For this project, a new custom object was created on Salesforce (Custom User), c
 
 ### Mule Flows :twisted_rightwards_arrows:
 
+To create all the new users, the Transform Message connector transform the mule event payload to Javascript, so it can be user on Salesforce Create Connector. After sending data to Salesforce, other Transform Message connector is used to set the response as a JSON object. If the response containg the successfull attribute as true, a success message is sent to the client. Otherwise, an error message with 409 (Conflict) status code is sent to the client.
+
+<p align="center">
+  <img src="./img/create-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
+<br>
+
+To list all Salesforce Organization's users, the mule flow starts with a Query Connector, containing the correct sintax. After receiving the response, a Transform Message Connector set the data to a JSON Object, checking if the response is an empty collection. In case of empty response, the client is informed with an error message and 404 (Not Found) status code. Otherwise, the client receives a complete list of users.
+
+<p align="center">
+  <img src="./img/list-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
+To update or delete a Salesforce Custom User record, the Set ID Flow get the URI parameter containing the specified UUID(v4), which is used on Salesforce Query Connector to retrieve the corresponding record. After checking the response, in case of empty collection, the client is informed with an error message and 404 (Not Found) status code. This flow is called on the beggining of both Update and Delete flows.
+
+<p align="center">
+  <img src="./img/set-id-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
+<br>
+
+In case of update, the new e-mail is saved on a variable, sending an update request to Salesfoce via Update Connector. In case of successfull response, the client receive the updated user, getting an error message and 500 (Server Error) status code in case of failed update.
+
+<p align="center">
+  <img src="./img/update-id-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
+<br>
+
+In case of delete, the Dele Connector is called with user's Salesforce ID, checking if the response is successfull, sending error message if it failed.
+
+<p align="center">
+  <img src="./img/delete-id-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
+<br>
+
 ### Security :key:
 
 MuleSoft has it's own way of encrypting data: the <a href="https://docs.mulesoft.com/mule-runtime/4.3/secure-configuration-properties">Secure Properties Connector</a>. Through a secure encryption key (which I obviously deleted), developers can set sensible information to it's encripted mode.
