@@ -34,3 +34,12 @@ MuleSoft is a technology that provides integration software for connecting appli
   <img src="./img/Application-Architecture.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
+<div style='text-align: justify;'>
+API-led connectivity is a methodical way to connect data to applications through reusable and purposeful APIs. These APIs are developed to play a specific role – unlocking data from systems, composing data into processes, or delivering an experience. The APIs used in an API-led approach to connectivity fall into three categories:
+</div>
+
+- <strong>System APIs:</strong> access the core systems of record.
+- <strong>Process APIs:</strong> interact with and shape data within a single system or across systems.
+- <strong>Experience APIs:</strong> data can be reconfigured so that it is most easily consumed by its intended audience.
+
+Here we have only the System level.
