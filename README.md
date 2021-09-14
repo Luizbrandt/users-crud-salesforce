@@ -50,20 +50,14 @@ Here we have only the System level, which access Salesforce record data using fo
 
 ### Operations :wrench:
 
-<pre>
-  <code>
-  [
-    {
-      "name": "User One Name",
-      "mail": "user_one@mail.com"
-    },
-    {
-      "name": "User N Name",
-      "mail": "user_n@mail.com"
-    },
-  ]
-  </code>
-</pre>
+<strong>Create User:</strong> to create a user, you'll need to send a JSON Array, in which each object contains a 'name' and 'mail' strings. The API will automatically generate a <a href="https://www.uuidgenerator.net/version4">UUID(v4)</a> for user's external id, sending the information to Salesforce.
+```json
+[
+  { "name": "User One", "mail": "user_one@mail.com" },
+  { "name": "User Two", "mail": "user_two@mail.com" },
+  ...
+]
+```
 
 ### Objects :cd:
 
