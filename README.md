@@ -147,3 +147,9 @@ In case of delete, the Dele Connector is called with user's Salesforce ID, check
 ### Security :key:
 
 MuleSoft has it's own way of encrypting data: the <a href="https://docs.mulesoft.com/mule-runtime/4.3/secure-configuration-properties">Secure Properties Connector</a>. Through a secure encryption key (which I obviously deleted), developers can set sensible information to it's encripted mode.
+
+### To Improve 📈
+- Use bulk operations for all HTTP requests.
+- Use Composite Request Connector.
+- Use Common Error Handler Connector.
+- Set solution to HTTPS.
