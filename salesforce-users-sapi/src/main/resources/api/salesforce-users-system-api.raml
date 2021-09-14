@@ -1,0 +1,47 @@
+#%RAML 1.0
+title: Salesforce Users System API
+version: 1.0
+
+types: 
+  User: !include datatypes/user.raml
+  Usernoid: !include datatypes/usersnoid.raml
+
+/users:
+  
+  /create:
+    post:
+      displayName: Create Users
+      responses:
+        201:
+          body:
+            application/json:
+              example:
+                message: User(s) added (but not really)
+  
+  /read:
+    get:
+      displayName: List Users
+      responses:
+        200:
+          body:
+            application/json:
+              type: Usernoid[]
+
+  /{userid}:
+    patch:
+      displayName: Update User
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: User updated (but not really)
+      
+    delete:
+      displayName: Delete User
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                message: User deleted (but not really)

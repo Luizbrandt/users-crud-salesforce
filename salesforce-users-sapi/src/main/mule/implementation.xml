@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce" xmlns:validation="http://www.mulesoft.org/schema/mule/validation"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
+	<flow name="create-user-flow" doc:id="bae09382-6204-47f9-a7e7-7634b79eb3ab" >
+		<ee:transform doc:name="New Users" doc:id="7ff096c6-9b63-4ce8-9e52-794b286be780" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload map (item, index) -> {
+	External_Id__c: uuid(),
+	Name__c: item.name,
+	Mail__c: item.mail
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Create Users List" doc:id="4f5c0d04-5484-4cc0-bfcf-713e9bd5b513" message="#[payload]"/>
+		<salesforce:create type="Custom_User__c" doc:name="Create Salesforce Users" doc:id="622838d7-4290-4aa4-bfa5-347b74510ab5" config-ref="Salesforce_Config"/>
+		<ee:transform doc:name="to JSON" doc:id="6aa542fc-7183-4fb3-a10d-aa7e3b3ec0d1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Salesforce Query Response" doc:id="bf74b18b-353c-4bb3-9e73-f68e39154667" message="#[payload]"/>
+		<ee:transform doc:name="Success" doc:id="d8a5e3a0-9b65-44fa-8ff5-4d865ad901ef" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.successful]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Operation Status" doc:id="9769c886-b657-4b8a-b221-2e05ea4bfbd6" message='#["Create Users - Operation Status: " ++ payload as String]'/>
+		<validation:is-true doc:name="Is true" doc:id="111fb2fc-3364-4fc1-94bf-ed8ced045d73" expression="true"/>
+		<ee:transform doc:name="Success Message" doc:id="7516298d-7771-4a98-8403-928eabc10033">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Usuário(s) criado(s) com sucesso!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+		<logger level="INFO" doc:name="Success Message" doc:id="7068e720-755e-4dc7-8cf6-909ebf11876e" message="#[payload]"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="375febf1-d39e-4b0c-b90f-d252b317ddea" type="VALIDATION:INVALID_BOOLEAN">
+				<set-variable value="#[409]" doc:name="httpStatus" doc:id="c3edbe86-822f-4401-a3ce-4a3f630d87f0" variableName="httpStatus" />
+				<ee:transform doc:name="Error Message" doc:id="87a267a0-76e7-4170-82d1-580c9800af28">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error_message": "Falha no cadastro de um ou mais usuários"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Error Log" doc:id="e27678e1-4134-49ac-aa1b-c742b13e8815" message='#[payload]'/>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="list-users-flow" doc:id="4359aa86-78e1-420b-9227-915594fe8075" >
+		<salesforce:query doc:name="Query Custom Users" doc:id="cfedb68a-92eb-4538-aa21-a41b9da1c559" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[Select Name, External_Id__c, Mail__c, Name__c from Custom_User__c]]></salesforce:salesforce-query>
+		</salesforce:query>
+		<ee:transform doc:name="to JSON" doc:id="b96013cc-4958-4685-b5a3-ec2bd4619edc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Salesforce Query Response" doc:id="3df84edf-7487-485a-829d-89cc764b4c25" message="#[payload]"/>
+		<validation:is-not-empty-collection doc:name="Empty Query Result" doc:id="f23aef6b-1ab3-41d7-9438-7543cd536a9c" />
+		<ee:transform doc:name="User List Success Message" doc:id="5966c23f-06a4-4db6-9832-7627a9059418" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{	
+	record_count: sizeOf(payload),
+	users: payload map (item, index) -> {
+		name: item.Name__c,
+		mail: item.Mail__c,
+		externalid: item.External_Id__c,
+	},
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Success Message" doc:id="aac42039-1037-4cfc-9066-6aa5a61a01c1" message="#[payload]"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="7dbc7f6b-6eaa-406b-b3a6-86365eb21e9c" type="VALIDATION:EMPTY_COLLECTION">
+				<set-variable value="#[404]" doc:name="httpStatus" doc:id="c20131e0-f655-4480-99ec-4e2fe1f84e94" variableName="httpStatus" />
+				<ee:transform doc:name="Error Message" doc:id="8ae2838a-053f-4efe-bd89-7195e185b849" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error_message": "Não há usuários cadastrados!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Error Log" doc:id="7227b99c-2c4b-4868-98c8-05dbdafb2e3f" message='#[payload]' />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="set-user-id-flow" doc:id="9a4ac1e6-40bc-443a-bd68-c858ebd87904" >
+		<set-variable value="#[attributes.uriParams.userid]" doc:name="userid" doc:id="4107e449-0831-4f21-8874-fa270a6b37e7" variableName="userid"/>
+		<logger level="INFO" doc:name="User ID" doc:id="bbc715ba-3c44-4580-85dd-9a48c9d98673" message='#["User ID URI Parameter: " ++ vars.userid as String]'/>
+		<salesforce:query doc:name="Get Custom User" doc:id="8afaa44b-fd5c-4091-9853-0d652c1d972a" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query><![CDATA[Select Id, Name__c, External_Id__c, Mail__c from Custom_User__c where External_Id__c=':user_id' ]]></salesforce:salesforce-query>
+			<salesforce:parameters><![CDATA[#[output application/java
+---
+{
+	user_id : vars.userid
+}]]]></salesforce:parameters>
+		</salesforce:query>
+		<ee:transform doc:name="to JSON" doc:id="6f60e617-9d80-478d-a67a-5ab736b13d15">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Salesforce Query Response" doc:id="72d4ad06-3148-4746-8a18-7732911dada4" message="#[payload]" />
+		<set-variable value="#[payload[0]]" doc:name="Salesforce User Record" doc:id="2c46cb1f-c16a-47df-ab36-f184b4121b91" variableName="user_record" />
+		<logger level="INFO" doc:name="Found User Log" doc:id="b0e1e5d3-0187-4c02-8bf5-bf1ea076aede" message="#[vars.userid]"/>
+		<validation:is-not-empty-collection doc:name="Not Empty Query Result" doc:id="724bccb6-5fb8-414f-855d-a77f9a8a8260" />
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="74120108-a343-4322-a640-71e0064b8757" type="VALIDATION:EMPTY_COLLECTION">
+				<set-variable value="#[404]" doc:name="httpStatus" doc:id="4a946d6d-fba9-4a51-a965-13c96c59826c" variableName="httpStatus" />
+				<ee:transform doc:name="Error Message" doc:id="952222da-a249-45a4-a958-f8c10079c522">
+					<ee:message>
+						<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error_message": "Usuário com id externo fornecido não encontrado!"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Error Log" doc:id="6780e348-ce96-4c89-b635-bdd7a4d4d952" message='#[payload]' />
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="update-user-flow" doc:id="5d6e20ce-f82d-49d7-b1f1-f4e9d2d8b48a">
+		<set-variable value="#[payload[0].new_mail]" doc:name="New Mail" doc:id="ad80e202-6003-4272-8e74-b16d6bdb2bc8" variableName="new_mail"/>
+		<logger level="INFO" doc:name="New Mail" doc:id="6e7c95a4-d9de-41d9-8c9e-0e2af61c10ad" message='#["Update User -&gt; New mail: " ++ vars.new_mail as String]'/>
+		<flow-ref doc:name="Set User ID" doc:id="4eae7f11-815b-4325-bee3-ecb4c24a1e8d" name="set-user-id-flow"/>
+		<salesforce:update doc:name="Update" doc:id="541e626a-1b1d-4327-8ec3-c53a1476f859" config-ref="Salesforce_Config" type="Custom_User__c">
+			<salesforce:records ><![CDATA[#[[
+	{	
+		Id: vars.user_record.Id,
+		Mail__c: vars.new_mail
+	}
+
+]]]]></salesforce:records>
+		</salesforce:update>
+		<ee:transform doc:name="Set Payload to JSON" doc:id="5a977c02-e415-4257-a4c0-ae34bff478ad" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="success" ><![CDATA[%dw 2.0
+output application/json
+---
+payload.successful]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<logger level="INFO" doc:name="Salesforce Update Response" doc:id="5db389e1-9996-4af2-ba72-4dd7b9cb448a" message="#[payload]"/>
+		<choice doc:name="Choice" doc:id="4cbef9e5-e264-4b0e-ad64-57d88c0ac988" >
+			<when expression="#[vars.success == true]">
+				<ee:transform doc:name="Update Success Message" doc:id="20b7b9e4-9cd6-4219-8fb2-acf2f3923ff1" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	message: "Usuário atualizado com sucesso",
+	name: vars.user_record.Name__c,
+	mail: vars.new_mail
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Success Message" doc:id="f2ce4a91-1c59-4e87-98ce-b1cfa1a33a47" message="#[payload]"/>
+			</when>
+			<otherwise >
+				<raise-error doc:name="Raise error" doc:id="d53141ec-6744-4cde-ab0e-b1017bbcc974" type="UPDATE:FAILED"/>
+			</otherwise>
+		</choice>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="81a9381e-8841-409f-9e77-1310ce2851e5" type="UPDATE:FAILED">
+				<set-variable value="#[500]" doc:name="httpStatus" doc:id="5ef22ba9-76b9-43ed-b254-62c38fdd6b3b" variableName="httpStatus" />
+				<ee:transform doc:name="Error Message" doc:id="aedbe2d6-6354-4577-94ad-9db0ecd74c85" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error_message": "Falha na operação de atualização"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Error Log" doc:id="292a585e-7daa-4543-a745-8c3851687b35" message='#[payload]'/>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+	<flow name="delete-user-flow" doc:id="f8f127bb-7e44-4225-a529-fe2b2cea97a1" >
+		<flow-ref doc:name="Set User ID" doc:id="fc0acd4a-9639-4c87-b14a-dc30807b1235" name="set-user-id-flow"/>
+		<salesforce:delete doc:name="Delete" doc:id="c1195223-8f4a-45c5-9236-da50dd94121a" config-ref="Salesforce_Config">
+			<salesforce:ids ><![CDATA[#[[
+	vars.user_record.Id
+
+]]]]></salesforce:ids>
+		</salesforce:delete>
+		<ee:transform doc:name="Transform Message" doc:id="42bf67ac-e1c9-4cc5-b5bd-611fd5514f3c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Salesforce Delete Response" doc:id="0690a59c-b398-47f5-9c56-d3a7806f104c" message="#[payload]"/>
+		<ee:transform doc:name="Delete Status" doc:id="943484ba-aa9a-4008-8b5f-43c52661a17f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.successful]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<validation:is-true doc:name="Delete Successfull" doc:id="244e56fa-8d7e-41c1-abfc-c49196eea640" expression="true"/>
+		<ee:transform doc:name="Success Message" doc:id="99f8468f-ad07-41ea-8e45-0532b7f405bc" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "Usuário deletado com sucesso!"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Delete Success Message" doc:id="71301801-c2fd-4331-9434-a7bff033513e" message="#[payload]"/>
+		<error-handler >
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1142c65f-bf8e-49b3-bb08-b7ca8468af5d" type="VALIDATION:INVALID_BOOLEAN">
+				<set-variable value="#[500]" doc:name="httpStatus" doc:id="939b7604-d653-4c10-9cde-408eea313b49" variableName="httpStatus" />
+				<ee:transform doc:name="Error Message" doc:id="49c68784-cb44-4e02-8012-9db7d1f8da8a" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"error_message": "Falha na operação de exclusão"
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+				<logger level="INFO" doc:name="Error Log" doc:id="6c9b9bb6-f90f-4970-af32-33865f4dcaea" message='#[payload]'/>
+			</on-error-propagate>
+		</error-handler>
+	</flow>
+</mule>
