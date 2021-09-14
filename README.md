@@ -27,3 +27,5 @@ MuleSoft is a technology that provides integration software for connecting appli
 </div>
 
 <a href="https://www.mulesoft.com/">See more.</a>
+
+### Application Architecture 🧰
