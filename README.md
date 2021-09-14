@@ -47,3 +47,7 @@ API-led connectivity is a methodical way to connect data to applications through
 - <strong>Experience APIs:</strong> data can be reconfigured so that it is most easily consumed by its intended audience.
 
 Here we have only the System level, which access Salesforce record data using four HTTP operations: POST (create), GET (list), PATCH (update), DELETE.
+
+### Objects :cd:
+
+### Mule Flows :twisted_rightwards_arrows:
