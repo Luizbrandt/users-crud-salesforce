@@ -131,7 +131,7 @@ To update or delete a Salesforce Custom User record, the Set ID Flow get the URI
 In case of update, the new e-mail is saved on a variable, sending an update request to Salesfoce via Update Connector. In case of successfull response, the client receive the updated user, getting an error message and 500 (Server Error) status code in case of failed update.
 
 <p align="center">
-  <img src="./img/update-id-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/update-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
@@ -139,7 +139,7 @@ In case of update, the new e-mail is saved on a variable, sending an update requ
 In case of delete, the Dele Connector is called with user's Salesforce ID, checking if the response is successfull, sending error message if it failed.
 
 <p align="center">
-  <img src="./img/delete-id-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/delete-user-flow.PNG" align="center" width="800px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
