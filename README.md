@@ -61,7 +61,7 @@ Here we have only the System level, which access Salesforce record data using fo
 
 
 <p align="center">
-  <img src="./img/create-user-insomnia.PNG" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/create-user-insomnia.PNG" align="center" width="600px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
@@ -70,7 +70,7 @@ Here we have only the System level, which access Salesforce record data using fo
 
 
 <p align="center">
-  <img src="./img/list-user-insomnia.PNG" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/list-user-insomnia.PNG" align="center" width="600px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
@@ -83,7 +83,7 @@ Here we have only the System level, which access Salesforce record data using fo
 ```
 
 <p align="center">
-  <img src="./img/update-user-insomnia.PNG" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/update-user-insomnia.PNG" align="center" width="600px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
@@ -91,7 +91,7 @@ Here we have only the System level, which access Salesforce record data using fo
 <strong>Delete User:</strong> to delete a single user, his external id need to be passed as a URI parameter.
 
 <p align="center">
-  <img src="./img/delete-user-insomnia.PNG" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/delete-user-insomnia.PNG" align="center" width="600px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
