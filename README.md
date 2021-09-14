@@ -50,12 +50,22 @@ Here we have only the System level, which access Salesforce record data using fo
 
 ### Operations :wrench:
 
-<strong>Create User:</strong> to create a user, you'll need to send a JSON Array, in which each object contains a 'name' and 'mail' strings. The API will automatically generate a <a href="https://www.uuidgenerator.net/version4">UUID(v4)</a> for user's external id, sending the information to Salesforce.
+<strong>Create Users:</strong> to create a user, you'll need to send a JSON Array, in which each object contains a 'name' and 'mail' strings. The API will automatically generate a <a href="https://docs.mulesoft.com/mule-runtime/4.3/dw-core-functions-uuid">UUID(v4)</a> for user's external id, sending the information to Salesforce.
 ```json
 [
   { "name": "User One", "mail": "user_one@mail.com" },
   { "name": "User Two", "mail": "user_two@mail.com" },
   ...
+]
+```
+<br>
+<strong>Get Users:</strong> no data is sent to list all Salesforce Organization's custom user.
+<br>
+
+<strong>Update Users:</strong> to update a user, you'll need to send a JSON Array with one object containing a 'new_mail' string (if you send more than one, the API will consider the 0 index, ignoring all other records), also passing the user external id as a URI parameter. As the name cannot change, the only record attribute that cand be updated is the user e-mail.
+```json
+[
+  { "new_mail": "new_mailw@update.com" }
 ]
 ```
 
