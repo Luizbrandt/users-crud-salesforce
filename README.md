@@ -31,6 +31,6 @@ MuleSoft is a technology that provides integration software for connecting appli
 ### Application Architecture 🧰
 
 <p align="center">
-  <img src="./img/Application-Architecture.drawio.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/Application-Architecture.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
