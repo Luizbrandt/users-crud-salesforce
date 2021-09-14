@@ -6,7 +6,7 @@ This project contains a simple implementation of a REST API built on MuleSoft, w
 ### Salesforce ☁️
 
 <p align="center">
-  <img src="./img/salesforce-logo.png" align="center" width="85px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/salesforce-logo.png" align="center" width="85px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <div style='text-align: justify;'>
@@ -19,7 +19,7 @@ Salesforce is a technology that provides customer relationship management (CRM) 
 ### MuleSoft 🔗
 
 <p align="center">
-  <img src="./img/MuleSoft_Logo.png" align="center" width="85px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/MuleSoft_Logo.png" align="center" width="85px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <div style='text-align: justify;'>
@@ -33,7 +33,7 @@ MuleSoft is a technology that provides integration software for connecting appli
 ### Application Architecture 🧰
 
 <p align="center">
-  <img src="./img/Application-Architecture.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/Application-Architecture.png" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <div style='text-align: justify;'>
@@ -61,7 +61,7 @@ Here we have only the System level, which access Salesforce record data using fo
 
 
 <p align="center">
-  <img src="./img/create-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/create-user-insomnia.png" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
@@ -70,7 +70,7 @@ Here we have only the System level, which access Salesforce record data using fo
 
 
 <p align="center">
-  <img src="./img/list-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/list-user-insomnia.png" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
@@ -83,7 +83,7 @@ Here we have only the System level, which access Salesforce record data using fo
 ```
 
 <p align="center">
-  <img src="./img/update-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/update-user-insomnia.png" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
@@ -91,7 +91,7 @@ Here we have only the System level, which access Salesforce record data using fo
 <strong>Delete User:</strong> to delete a single user, his external id need to be passed as a URI parameter.
 
 <p align="center">
-  <img src="./img/delete-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+  <img src="./img/delete-user-insomnia.png" align="center" width="400px" style="marin-left: auto; margin-right: auto;"/>
 </p>
 
 <br>
