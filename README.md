@@ -58,8 +58,11 @@ Here we have only the System level, which access Salesforce record data using fo
   ...
 ]
 ```
+
 <br>
+
 <strong>Get Users:</strong> no data is sent to list all Salesforce Organization's custom user.
+
 <br>
 
 <strong>Update Users:</strong> to update a user, you'll need to send a JSON Array with one object containing a 'new_mail' string (if you send more than one, the API will consider the 0 index, ignoring all other records), also passing the user external id as a URI parameter. As the name cannot change, the only record attribute that cand be updated is the user e-mail.
