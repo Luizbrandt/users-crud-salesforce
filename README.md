@@ -59,18 +59,42 @@ Here we have only the System level, which access Salesforce record data using fo
 ]
 ```
 
+
+<p align="center">
+  <img src="./img/create-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
 <br>
 
-<strong>Get Users:</strong> no data is sent to list all Salesforce Organization's custom user.
+<strong>Get Users:</strong> there's no need to sent data to list all Salesforce Organization's custom users registered.
+
+
+<p align="center">
+  <img src="./img/list-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+</p>
 
 <br>
 
-<strong>Update Users:</strong> to update a user, you'll need to send a JSON Array with one object containing a 'new_mail' string (if you send more than one, the API will consider the 0 index, ignoring all other records), also passing the user external id as a URI parameter. As the name cannot change, the only record attribute that cand be updated is the user e-mail.
+<strong>Update User:</strong> to update a user, you'll need to send a JSON Array with one object containing a 'new_mail' string (if you send more than one, the API will consider the 0 index, ignoring all other records), also passing the user external id as a URI parameter. As the name cannot change, the only record attribute that cand be updated is the user e-mail.
 ```json
 [
   { "new_mail": "new_mailw@update.com" }
 ]
 ```
+
+<p align="center">
+  <img src="./img/update-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
+<br>
+
+<strong>Delete User:</strong> to delete a single user, his external id need to be passed as a URI parameter.
+
+<p align="center">
+  <img src="./img/delete-user-insomnia.png" align="center" width="400px" alt="AFEMG Logo" style="marin-left: auto; margin-right: auto;"/>
+</p>
+
+<br>
 
 ### Objects :cd:
 
