@@ -97,6 +97,12 @@ Here we have only the System level, which access Salesforce record data using fo
 <br>
 
 ### Objects :cd:
+For this project, a new custom object was created on Salesforce (Custom User), containing the following fields.
+| Field       | Label          | Type            |
+|-------------|----------------|-----------------|
+| Name        | Name__c        | Text(50)        |
+| Mail        | Mail__c        | Email (String)  |
+| External ID | External_Id__c | UUID - Text(36) |
 
 ### Mule Flows :twisted_rightwards_arrows:
 
